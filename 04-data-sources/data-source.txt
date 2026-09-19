@@ -1,0 +1,2 @@
+File created outside terraform.
+Now I am creating the copy.
