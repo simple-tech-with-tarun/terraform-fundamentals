@@ -11,14 +11,12 @@ provider "azurerm" {
   features {}
 }
 
-resource "azurerm_resource_group" "refresh" {
-  name     = "terraform-state-refresh-rg"
+resource "azurerm_resource_group" "backup" {
+  name     = "terraform-state-backup-rg"
   location = "Central India"
 
   tags = {
-    owner      = "tarun"
-    AutoDelete = "Yes"
-    CreatedOn : "2026-09-23T10:31:22Z"
+    owner       = "tarun"
     environment = "lab"
   }
 }
