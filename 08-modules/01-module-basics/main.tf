@@ -6,16 +6,31 @@ terraform {
   }
 }
 
-module "file" {
+module "file1" {
   source    = "./modules/file"
-  file_name = "custom-module.txt"
-  content   = "custom-module-txt"
+  file_name = "custom-module1.txt"
+  content   = "custom-module1-txt"
 }
 
-output "file_name" {
-  value = module.file.filename
+output "file_name1" {
+  value = module.file1.filename
 }
 
-output "content" {
-  value = module.file.content
+output "content1" {
+  value = module.file1.content
+}
+
+
+module "file2" {
+  source    = "./modules/file"
+  file_name = "custom-module2.txt"
+  content   = "custom-module2-txt"
+}
+
+output "file_name2" {
+  value = module.file2.filename
+}
+
+output "content2" {
+  value = module.file2.content
 }
