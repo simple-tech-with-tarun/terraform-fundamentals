@@ -1113,5 +1113,3 @@ Additional Azure CLI commands were used for resource creation, discovery, and re
 ```
 
 The next branch will introduce **Terraform modules**, moving from Terraform state management into configuration reuse, structure, and composition.
-
-This version reflects the experiments you actually ran rather than just listing Terraform state features.
