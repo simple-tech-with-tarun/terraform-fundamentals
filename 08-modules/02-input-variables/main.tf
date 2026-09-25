@@ -7,7 +7,9 @@ terraform {
 }
 
 module "file" {
-  source         = "./modules/file"
-  for_each       = var.environments
-  m_environments = each.value
+  source   = "./modules/file"
+  for_each = var.environments
+
+  m_environment_key = each.key
+  m_environment     = each.value
 }

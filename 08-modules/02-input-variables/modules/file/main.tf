@@ -7,6 +7,6 @@ terraform {
 }
 
 resource "local_file" "example" {
-  filename = "${var.m_environments.name}.txt"
-  content  = "${var.m_environments.name} environment in ${var.m_environments.region}"
+  filename = "${var.m_environment_key}.txt"
+  content  = "${var.m_environment.name} environment in ${var.m_environment.region}"
 }
