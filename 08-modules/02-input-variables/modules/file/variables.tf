@@ -1,8 +1,6 @@
-variable "m_filename" {
-  type = string
-
-}
-
-variable "m_content" {
-  type = string
+variable "m_environment" {
+  type = object({
+    name   = string
+    region = optional(string, "Central India")
+  })
 }
