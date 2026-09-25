@@ -1,6 +1,6 @@
-variable "m_environment" {
+variable "m_environments" {
   type = object({
     name   = string
-    region = optional(string, "Central India")
+    region = string
   })
 }
