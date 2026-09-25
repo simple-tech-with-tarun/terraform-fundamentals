@@ -1,9 +1,9 @@
 variable "m_environment" {
-  type = object({
-    name   = string
-    region = string
-  })
-}
-variable "m_environment_key" {
-  type = string
+  type = map(object({
+    location = string
+
+    resource_groups = map(object({
+      name = string
+    }))
+  }))
 }
