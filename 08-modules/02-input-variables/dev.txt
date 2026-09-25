@@ -1,0 +1,6 @@
+Environment: dev
+Location: Central India
+
+Resource Groups:
+  app: dev-app-rg
+  data: dev-data-rg

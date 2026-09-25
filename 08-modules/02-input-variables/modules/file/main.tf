@@ -7,6 +7,16 @@ terraform {
 }
 
 resource "local_file" "example" {
-  filename = "${var.m_environment.name}.txt"
-  content  = "${var.m_environment.name} environment in ${var.m_environment.region}"
+  for_each = var.m_environment
+  filename = "${each.key}.txt"
+  content = <<-EOT
+    Environment: ${each.key}
+    Location: ${each.value.location}
+
+    Resource Groups:
+    ${join("\n", [
+  for rg_key, rg in each.value.resource_groups :
+  "  ${rg_key}: ${rg.name}"
+])}
+  EOT
 }

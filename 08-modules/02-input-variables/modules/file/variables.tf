@@ -1,6 +1,9 @@
 variable "m_environment" {
-  type = object({
-    name   = string
-    region = optional(string, "Central India")
-  })
+  type = map(object({
+    location = string
+
+    resource_groups = map(object({
+      name = string
+    }))
+  }))
 }
