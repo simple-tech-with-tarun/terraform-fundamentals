@@ -1,2 +1,4 @@
-environment_file    = "test.txt"
-environment_content = "Testing environment"
+environment = {
+  name   = "Test"
+  region = "East US"
+}
