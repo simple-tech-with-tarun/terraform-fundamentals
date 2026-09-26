@@ -8,6 +8,5 @@ terraform {
 
 module "file" {
   source        = "./modules/file"
-  m_environment = var.environments
-
+  m_environment = var.environment
 }
