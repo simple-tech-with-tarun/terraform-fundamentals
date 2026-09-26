@@ -1,0 +1,3 @@
+Environment: prod
+Location: East US
+Resource Group: prod-app-rg

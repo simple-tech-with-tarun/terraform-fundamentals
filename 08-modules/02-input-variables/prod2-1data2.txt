@@ -1,0 +1,3 @@
+Environment: prod2
+Location: East UK
+Resource Group: prod2-data-rg

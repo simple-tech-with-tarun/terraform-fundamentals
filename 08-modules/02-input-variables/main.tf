@@ -11,3 +11,7 @@ module "file" {
   m_environment = var.environments
 
 }
+
+output "environment_resource_groups" {
+  value = module.file.environment_resource_groups
+}
