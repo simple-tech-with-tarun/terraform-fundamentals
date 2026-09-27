@@ -8,22 +8,21 @@ terraform {
 
 module "file" {
   source    = "./modules/file"
+  for_each  = var.environments
   m_message = "Hello from the root module."
 }
 
-output "file_name_root" {
-  value = module.file.filename
+
+output "environment_messages" {
+  value = {
+    for key, module_instance in module.file :
+    key => module_instance.message
+  }
 }
 
-output "file_content_root" {
-  value = module.file.content
+output "message_dev" {
+  value = module.file["dev"].message
 }
-output "root_message" {
-  value = module.file.message
-}
-output "root_summary" {
-  value = module.file.message_summary
-}
-output "root_combined" {
-  value = "${module.file.filename} | ${module.file.content} | ${module.file.message}"
+output "message_prod" {
+  value = module.file["prod"].message
 }
