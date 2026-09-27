@@ -7,22 +7,24 @@ terraform {
 }
 
 module "file" {
-  source    = "./modules/file"
-  for_each  = var.environments
-  m_message = "Hello from the root module."
-}
+  source = "./modules/file"
+  count  = 2
 
+  m_key     = "environment-${count.index}"
+  m_message = "Environment ${count.index}"
+}
 
 output "environment_messages" {
-  value = {
-    for key, module_instance in module.file :
-    key => module_instance.message
-  }
+  value = [
+    for module_instance in module.file :
+    module_instance.message
+  ]
 }
 
-output "message_dev" {
-  value = module.file["dev"].message
+output "message_0" {
+  value = module.file[0].message
 }
-output "message_prod" {
-  value = module.file["prod"].message
+
+output "message_1" {
+  value = module.file[1].message
 }

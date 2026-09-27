@@ -7,10 +7,13 @@ terraform {
 }
 
 resource "local_file" "example" {
-  filename = "module-output.txt"
-  content  = "Created by the child module."
+  filename = "${var.m_key}.txt"
+  content  = "Created by the child module in ${var.m_message}."
 }
 
 variable "m_message" {
+  type = string
+}
+variable "m_key" {
   type = string
 }
