@@ -7,6 +7,6 @@ terraform {
 }
 
 resource "local_file" "consumer" {
-  filename = "consumer.txt"
+   filename = "${var.m_environment}-consumer.txt"
   content  = "Source file is: ${var.m_source_filename}"
 }

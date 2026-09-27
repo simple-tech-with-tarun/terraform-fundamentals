@@ -7,6 +7,6 @@ terraform {
 }
 
 resource "local_file" "source" {
-  filename = "source.txt"
-  content  = "Created by the source module."
+  filename = "${var.m_environment}-source.txt"
+  content  = "Created by the source module for ${var.m_environment}."
 }

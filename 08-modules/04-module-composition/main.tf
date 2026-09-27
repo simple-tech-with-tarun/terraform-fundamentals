@@ -6,18 +6,23 @@ terraform {
   }
 }
 
+variable "environments" {
+  type = set(string)
+
+  default = ["dev", "prod"]
+}
+
 module "source" {
-  source = "./modules/source"
+  source   = "./modules/source"
+  for_each = var.environments
+
+  m_environment = each.key
 }
 
 module "consumer" {
-  source = "./modules/consumer"
+  source   = "./modules/consumer"
+  for_each = var.environments
 
-  m_source_filename = module.source.filename
-}
-
-module "final" {
-  source = "./modules/final"
-
-  m_consumer_filename = module.consumer.filename
+  m_environment      = each.key
+  m_source_filename  = module.source[each.key].filename
 }
