@@ -9,6 +9,3 @@ terraform {
 module "file_generator" {
   source = "./modules/file_generator"
 }
-module "GitHub" {
-    source = 
-}
