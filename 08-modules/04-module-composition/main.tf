@@ -15,3 +15,9 @@ module "consumer" {
 
   m_source_filename = module.source.filename
 }
+
+module "final" {
+  source = "./modules/final"
+
+  m_consumer_filename = module.consumer.filename
+}
