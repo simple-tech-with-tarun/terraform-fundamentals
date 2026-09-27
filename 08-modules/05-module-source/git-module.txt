@@ -1,1 +1,1 @@
-Module loaded from Git.
+Module loaded from Git - current branch.
