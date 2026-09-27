@@ -9,3 +9,6 @@ terraform {
 module "file_generator" {
   source = "./modules/file_generator"
 }
+ module "GitHub_module" {
+    source = "git::https://github.com/simple-tech-with-tarun/terraform-module-source-lab.git"
+ }
