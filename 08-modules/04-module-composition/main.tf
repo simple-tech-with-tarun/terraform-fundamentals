@@ -7,9 +7,22 @@ terraform {
 }
 
 variable "environments" {
-  type = set(string)
+  type = map(object({
+    region = string
+    tier   = string
+  }))
 
-  default = ["dev", "prod"]
+  default = {
+    dev = {
+      region = "Central India"
+      tier   = "development"
+    }
+
+    prod = {
+      region = "East US"
+      tier   = "production"
+    }
+  }
 }
 
 module "source" {
