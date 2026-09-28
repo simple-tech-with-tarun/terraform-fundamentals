@@ -11,11 +11,11 @@ environments = {
 
   prod = {
     region  = "East US"
-    enabled = true
+    enabled = false
   }
 
   stage = {
     region  = "Central India"
-    enabled = false
+    enabled = true
   }
 }
