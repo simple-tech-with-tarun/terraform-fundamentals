@@ -14,7 +14,7 @@ provider "azurerm" {
 
 module "resource_group" {
   source  = "Azure/avm-res-resources-resourcegroup/azurerm"
-  version = "< 0.4"
+  version = "0.4.0"
 
   name     = "terraform-module-version-lab-rg"
   location = "Central India"
