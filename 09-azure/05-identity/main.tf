@@ -8,6 +8,7 @@ terraform {
 
 provider "azurerm" {
   features {}
+  # use_cli = true
 }
 
 data "azurerm_resource_group" "lab" {
