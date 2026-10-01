@@ -69,6 +69,11 @@ resource "azurerm_subnet" "database" {
       ]
     }
   }
+  lifecycle {
+    ignore_changes = [
+      service_endpoint
+    ]
+  }
 }
 
 resource "azurerm_network_security_group" "frontend" {
