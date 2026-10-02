@@ -13,6 +13,15 @@ locals {
     database = {
       name = var.database_subnet_name
       cidr = var.database_subnet_cidr
+      delegation = {
+        name = "postgresql"
+
+        service_name = "Microsoft.DBforPostgreSQL/flexibleServers"
+
+        actions = [
+          "Microsoft.Network/virtualNetworks/subnets/join/action"
+        ]
+      }
     }
   }
 
