@@ -22,3 +22,7 @@ variable "common_tags" {
   description = "Common tags applied to compute resources."
   type        = map(string)
 }
+variable "ssh_public_key_path" {
+  description = "Path to the SSH public key used for Linux VM access."
+  type        = string
+}

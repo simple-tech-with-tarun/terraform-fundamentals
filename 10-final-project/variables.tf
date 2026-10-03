@@ -39,3 +39,20 @@ variable "database_subnet_cidr" {
   type        = string
   default     = "10.0.3.0/24"
 }
+
+variable "ssh_public_key_path" {
+  description = "Path to the SSH public key used for Linux VM access."
+  type        = string
+}
+
+variable "postgresql_admin_username" {
+  description = "Administrator username for PostgreSQL."
+  type        = string
+  default     = "pgadmin"
+}
+
+variable "postgresql_admin_password" {
+  description = "Administrator password for PostgreSQL."
+  type        = string
+  sensitive   = true
+}

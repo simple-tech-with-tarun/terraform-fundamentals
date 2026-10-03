@@ -28,3 +28,32 @@ module "network" {
 
   common_tags = local.common_tags
 }
+
+module "compute" {
+  source = "./modules/compute"
+
+  resource_group_name = azurerm_resource_group.main.name
+  location            = azurerm_resource_group.main.location
+
+  frontend_subnet_id = module.network.frontend_subnet_id
+  backend_subnet_id  = module.network.backend_subnet_id
+
+  ssh_public_key_path = var.ssh_public_key_path
+
+  common_tags = local.common_tags
+}
+
+module "database" {
+  source = "./modules/database"
+
+  resource_group_name = azurerm_resource_group.main.name
+  location            = azurerm_resource_group.main.location
+
+  database_subnet_id = module.network.database_subnet_id
+  vnet_id            = module.network.vnet_id
+
+  administrator_login    = var.postgresql_admin_username
+  administrator_password = var.postgresql_admin_password
+
+  common_tags = local.common_tags
+}
