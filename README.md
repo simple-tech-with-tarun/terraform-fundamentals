@@ -1,15 +1,6 @@
-> ⚠️ **COPYRIGHT & USAGE NOTICE**
->
-> © 2026 Tarun Bansal · Simple Tech With Tarun. All rights reserved, except where otherwise stated.
->
-> This repository may contain original technical documentation, tutorials, source code, Terraform configurations, scripts, diagrams, and other materials created and published by Tarun Bansal under the GitHub identity **Simple Tech With Tarun**.
->
-> Public availability does not automatically grant permission to reproduce, republish, redistribute, or commercially exploit original materials. Please review the [Copyright & Intellectual Property Notice](https://github.com/simple-tech-with-tarun/simple-tech-with-tarun/blob/main/COPYRIGHT.md) before reusing such materials.
->
-> Any explicit repository-level or file-level license governs the materials it covers. Third-party content and contributions remain subject to their respective ownership rights, licenses, and applicable terms.
->
-> ---
 # Terraform Fundamentals
+
+<sub>🛡️ © 2026 Tarun Bansal · Simple Tech With Tarun. All rights reserved, except where otherwise stated. See the <a href="https://github.com/simple-tech-with-tarun/simple-tech-with-tarun/blob/main/COPYRIGHT.md">Copyright & Intellectual Property Notice</a>.</sub>
 
 A practical reference for learning **Terraform and Infrastructure as Code** through concepts, examples, and hands-on exercises.
 
@@ -629,3 +620,15 @@ The emphasis is on understanding the underlying concepts and applying them throu
 **Terraform Fundamentals — Complete**
 
 The repository covers the core Terraform concepts through hands-on exercises and concludes with a modular Azure infrastructure project demonstrating how the individual Terraform concepts come together in a practical Infrastructure as Code workflow.
+
+---
+
+> **🛡️ Copyright & Intellectual Property**
+>
+> © 2026 Tarun Bansal · Simple Tech With Tarun. All rights reserved, except where otherwise stated.
+>
+> This repository may contain original technical documentation, tutorials, source code, Terraform configurations, scripts, diagrams, and other materials created and published by Tarun Bansal under the GitHub identity **Simple Tech With Tarun**.
+>
+> Public availability does not automatically grant permission to reproduce, republish, redistribute, or commercially exploit original materials. Please review the [Copyright & Intellectual Property Notice](https://github.com/simple-tech-with-tarun/simple-tech-with-tarun/blob/main/COPYRIGHT.md) before reusing such materials.
+>
+> Any explicit repository-level or file-level license governs the materials it covers. Third-party content and contributions remain subject to their respective ownership rights, licenses, and applicable terms.
