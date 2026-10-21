@@ -29,3 +29,7 @@ output "allowed_port_count" {
 output "uppercase_environments" {
   value = local.uppercase_environments
 }
+
+output "production_environments" {
+  value = local.production_environments
+}

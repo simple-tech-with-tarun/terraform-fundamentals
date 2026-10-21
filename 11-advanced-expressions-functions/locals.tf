@@ -36,4 +36,7 @@ locals {
   environments           = ["dev", "stage", "prod"]
   uppercase_environments = [for item in local.environments : upper(item)]
 
+  production_environments = [for item in local.environments : item if item == "prod"]
+
+
 }
