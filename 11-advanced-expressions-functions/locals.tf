@@ -30,8 +30,10 @@ locals {
   default_ports             = [80, 443]
   production_ports          = [443, 8080]
 
-
   all_production_ports    = concat(local.default_ports, local.production_ports)
   unique_production_ports = distinct(concat(local.default_ports, local.production_ports))
+
+  environments           = ["dev", "stage", "prod"]
+  uppercase_environments = [for item in local.environments : upper(item)]
 
 }

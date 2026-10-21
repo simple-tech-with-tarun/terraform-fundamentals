@@ -25,3 +25,7 @@ output "allows_https" {
 output "allowed_port_count" {
   value = length(local.unique_production_ports)
 }
+
+output "uppercase_environments" {
+  value = local.uppercase_environments
+}
