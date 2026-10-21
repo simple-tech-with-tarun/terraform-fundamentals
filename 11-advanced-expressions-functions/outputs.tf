@@ -33,3 +33,16 @@ output "uppercase_environments" {
 output "production_environments" {
   value = local.production_environments
 }
+
+output "production_environment_names" {
+  value = local.production_environment_names
+}
+output "staging_environment_names" {
+  value = local.staging_environment_names
+}
+output "replica_count" {
+  value = local.replica_count
+}
+output "is_critical_environment" {
+  value = local.is_critical_environment
+}
