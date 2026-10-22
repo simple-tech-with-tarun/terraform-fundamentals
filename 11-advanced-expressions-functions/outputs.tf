@@ -46,3 +46,20 @@ output "replica_count" {
 output "is_critical_environment" {
   value = local.is_critical_environment
 }
+output "selected_vm_size" {
+  value = local.selected_vm_size
+}
+
+output "environment_summary" {
+  value = local.environment_summary
+}
+
+output "deployment_status" {
+  value = local.deployment_status
+}
+output "requires_high_availability" {
+  value = local.requires_high_availability
+}
+output "is_non_production" {
+  value = local. is_non_production
+}

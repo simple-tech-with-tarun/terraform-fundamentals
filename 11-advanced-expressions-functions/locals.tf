@@ -42,7 +42,7 @@ locals {
   staging_environment_names    = upper(one([for item in local.environments : item if item == "stage"]))
 
   environment       = "prod"
-  high_availability = true
+  high_availability = false
   replica_count     = local.environment == "prod" && local.high_availability ? 3 : 1
 
   is_critical_environment = local.environment == "prod" || local.environment == "stage"
@@ -51,6 +51,21 @@ locals {
 
   deployment_eligible = (local.environment == "prod" || local.environment == "stage") && local.high_availability
 
-  vm_size = local.environment == "prod" ?"Standard_D2s_v5" : "Standard_B2s"
-  vm_size_prod = local.environment == "prod" && local.high_availability ?"Standard_D2s_v5" : "Standard_B2s"
+  vm_size      = local.environment == "prod" ? "Standard_D2s_v5" : "Standard_B2s"
+  vm_size_prod = local.environment == "prod" && local.high_availability ? "Standard_D2s_v5" : "Standard_B2s"
+
+  vm_sizes = {
+    dev   = "Standard_B2s"
+    stage = "Standard_D2s_v5"
+    prod  = "Standard_D4s_v5"
+  }
+
+  selected_vm_size = lookup(local.vm_sizes, local.environment, "Standard_D4s_v6")
+
+  environment_summary = local.environment == "prod" ? "Production environment" : "Non-production environment"
+
+  deployment_status = local.environment == "prod" && local.high_availability ? "Ready for deployment" : "Not ready for deployment"
+
+  requires_high_availability = local.environment == "prod" || local.environment == "stage"
+
 }
