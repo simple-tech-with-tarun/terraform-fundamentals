@@ -24,8 +24,12 @@ This repository covers the core Terraform concepts required to build and manage 
 - Variables
 - Local values
 - Outputs
-- Expressions
-- Functions
+- Terraform expressions and operators
+- Built-in functions
+- Collection transformations and filtering
+- String and collection manipulation
+- Conditional expressions
+- Dynamic configurations
 - Meta-arguments
 - Dependencies
 - Terraform state
@@ -50,7 +54,10 @@ The exercises progressively introduce:
 - Resource dependencies
 - State management
 - Data sources
-- Expressions and functions
+- Expressions, operators, and functions
+- Collection transformations using `for` expressions
+- Working with lists, maps, and sets
+- String formatting and function composition
 - Meta-arguments
 - Lifecycle configuration
 - Modules
@@ -192,6 +199,11 @@ terraform-fundamentals/
 │       ├── compute/
 │       └── database/
 │
+├── 11-advanced-expressions-functions/
+│   ├── locals.tf
+│   ├── outputs.tf
+│   └── README.md
+│
 └── README.md
 ```
 
@@ -199,6 +211,19 @@ The exact contents of the individual sections may evolve as additional Terraform
 
 ---
 
+## 📚 Learning Progress
+
+The repository follows a progressive learning path, with each section introducing concepts through practical examples and hands-on exercises.
+
+| Section | Topic |
+|---|---|
+| 11 | Advanced Expressions and Functions |
+
+Explore the individual section README files for detailed explanations, configuration examples, expected outputs, and key takeaways.
+
+[Explore Advanced Expressions and Functions](11-advanced-expressions-functions/README.md)
+
+---
 ## 🧠 Core Terraform Concepts
 
 ### Providers
@@ -279,16 +304,20 @@ Outputs are especially useful when one module needs to expose information to ano
 
 ### Expressions and Functions
 
-Terraform expressions and functions allow configurations to become dynamic and reusable.
+Terraform expressions and functions allow configurations to become dynamic, reusable, and easier to maintain.
 
 Examples include:
 
 - Conditional expressions
+- Logical operators
 - String functions
 - Collection functions
 - Numeric functions
 - Lookup operations
 - `for` expressions
+- Collection transformations and filtering
+- List, map, and set operations
+- Function composition
 
 ---
 
@@ -496,6 +525,11 @@ By completing this repository, you should understand:
 - How to inspect and troubleshoot Terraform state
 - How to structure a small Terraform project
 - How individual modules can be composed into a larger infrastructure deployment
+- How to use Terraform built-in functions
+- How to transform and filter collections using `for` expressions
+- How to work with lists, maps, and sets
+- How to combine functions and expressions
+- How to format and manipulate strings
 
 The objective is not simply to know Terraform commands, but to understand the **Terraform workflow and the reasoning behind Terraform configuration design**.
 
@@ -617,7 +651,7 @@ The emphasis is on understanding the underlying concepts and applying them throu
 
 ## ✅ Repository Status
 
-**Terraform Fundamentals — Complete**
+**Core Terraform Learning Path — Complete**
 
 The repository covers the core Terraform concepts through hands-on exercises and concludes with a modular Azure infrastructure project demonstrating how the individual Terraform concepts come together in a practical Infrastructure as Code workflow.
 

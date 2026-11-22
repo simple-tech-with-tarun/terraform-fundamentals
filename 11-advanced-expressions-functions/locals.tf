@@ -68,4 +68,109 @@ locals {
 
   requires_high_availability = local.environment == "prod" || local.environment == "stage"
 
+  production_environment_regions = {
+    for key, value in local.environment_regions :
+    key => value
+    if key == "prod"
+
+  }
+  environment_regions_uppercase = {
+    for key, value in local.environment_regions :
+    upper(key) => upper(value)
+  }
+
+  environment_index = {
+    for index, value in local.environments :
+    upper(value) => index
+  }
+
+  indian_environment_regions = {
+    for key, value in local.environment_regions :
+    key => value
+    if strcontains(value, "india")
+  }
+
+  environment_applications = {
+    dev   = ["frontend", "backend"]
+    stage = ["frontend", "backend", "database"]
+    prod  = ["frontend", "backend", "database", "monitoring"]
+  }
+
+  flat_applications = flatten([
+    for each, value in local.environment_applications :
+    value
+  ])
+
+  unique_applications = distinct(flatten([
+    for key, value in local.environment_applications : value
+    ]
+  ))
+
+  application_count_by_environment = {
+    for key, index in local.environment_applications :
+    key => length(index)
+  }
+
+  large_environments = {
+    for key, value in local.environment_applications :
+    key => value
+    if length(value) > 2
+  }
+  environment_summary_map = {
+    for key, value in local.environment_applications :
+    key => "${key} has ${length(value)} applications"
+  }
+
+  environment_summary_map2 = {
+    for key, value in local.environment_applications :
+    key => format("%s has %d applications", key, length(value))
+  }
+
+  environment_application_map = {
+    for key, value in local.environment_applications :
+    key => format("%s: %s", key, join(", ", value))
+  }
+
+  environment_application_summary1 = join("| ", [for key, value in local.environment_application_map : value])
+
+  environment_application_summary2 = join("| ", [for key, value in {
+    for key, value in local.environment_applications :
+    key => format("%s: %s", key, join(", ", value))
+  } : value])
+
+  sorted_environments          = sort(local.environments)
+  reversed_environments        = reverse(local.environments)
+  reversed_sorted_environments = reverse(sort(local.environments))
+
+  applications = [
+    "frontend",
+    "backend",
+    "frontend",
+    "database",
+    "backend"
+  ]
+
+  unique_applications_sorted = distinct(sort(local.applications))
+  applications_set           = toset(local.applications)
+
+  environment_names = ["dev", "stage", "prod"]
+
+  environment_region = [
+    "centralindia",
+    "westindia",
+    "eastus"
+  ]
+  names_regions = zipmap(local.environment_names, local.environment_region)
+
+  frontend_services = toset(["frontend", "api", "auth"])
+
+  backend_services = toset(["api", "database", "auth"])
+  all_services     = setunion(local.frontend_services, local.backend_services)
+
+  set_a = toset(["frontend", "api"])
+  set_b = toset(["api", "database"])
+  set_c = toset(["database", "monitoring", "api"])
+
+  intersection = setintersection(local.set_a, local.set_b, local.set_c)
+  subtract     = setsubtract(local.set_a, local.set_b)
 }
