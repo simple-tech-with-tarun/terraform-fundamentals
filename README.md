@@ -40,6 +40,11 @@ This repository covers the core Terraform concepts required to build and manage 
 - Plan and apply workflows
 - Validation and troubleshooting
 - Terraform best practices
+- Advanced Terraform expressions
+- Type conversion functions
+- Collection functions and transformations
+- String manipulation and formatting
+- Function composition
 
 ### Hands-on Practice
 
@@ -54,10 +59,11 @@ The exercises progressively introduce:
 - Resource dependencies
 - State management
 - Data sources
-- Expressions, operators, and functions
-- Collection transformations using `for` expressions
+- Expressions, operators, and built-in functions
+- Collection transformations and filtering using `for` expressions
 - Working with lists, maps, and sets
-- String formatting and function composition
+- Type conversion and function composition
+- String manipulation and formatting
 - Meta-arguments
 - Lifecycle configuration
 - Modules
@@ -311,8 +317,9 @@ Examples include:
 - Conditional expressions
 - Logical operators
 - String functions
-- Collection functions
 - Numeric functions
+- Collection functions
+- Type conversion functions
 - Lookup operations
 - `for` expressions
 - Collection transformations and filtering
@@ -530,6 +537,8 @@ By completing this repository, you should understand:
 - How to work with lists, maps, and sets
 - How to combine functions and expressions
 - How to format and manipulate strings
+- How Terraform converts values between data types
+- How to use built-in functions to transform, filter, and manipulate collections
 
 The objective is not simply to know Terraform commands, but to understand the **Terraform workflow and the reasoning behind Terraform configuration design**.
 
