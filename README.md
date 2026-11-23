@@ -666,6 +666,10 @@ The repository covers the core Terraform concepts through hands-on exercises and
 
 ---
 
+For an overview of completed topics, current progress, and planned learning areas, see the [Terraform Fundamentals Roadmap](./ROADMAP.md).
+
+---
+
 > **🛡️ Copyright & Intellectual Property**
 >
 > © 2026 Tarun Bansal · Simple Tech With Tarun. All rights reserved, except where otherwise stated.
