@@ -21,6 +21,7 @@ By completing this chapter, you will understand how to:
 - Convert between collection types.
 - Perform set operations.
 - Combine multiple functions and expressions to produce meaningful outputs.
+- Understand how to use Terraform regular expression functions (`regex()` and `regexall()`) to match and extract text.
 
 ---
 
@@ -920,7 +921,301 @@ Function composition helps keep configurations concise while allowing complex da
 
 It is important to understand the order in which nested functions are evaluated because the output of one function becomes the input of the next.
 
-## 14. Outputs and Expected Results
+## 14. Working with Regular Expressions
+
+Regular expressions (regex) are patterns used to search, match, and extract specific portions of strings.
+
+Terraform provides two important functions for working with regular expressions:
+
+- `regex()`
+- `regexall()`
+
+### 14.1 Understanding regex()
+
+The `regex()` function searches a string for the first match of a given regular expression pattern.
+
+**Syntax:**
+
+```hcl
+regex(pattern, string)
+```
+
+**Example:**
+
+```hcl
+sample_text = "terraform2026"
+
+extracted_text = regex("[a-z]+", local.sample_text)
+```
+
+**Expected result:**
+
+```hcl
+"terraform"
+```
+
+Here, `[a-z]+` matches one or more lowercase letters. The function returns the first matching portion of the string.
+
+### 14.2 Understanding Character Classes
+
+Character classes define which characters a pattern can match.
+
+| Pattern | Description |
+|---|---|
+| `[A-Z]` | Matches one uppercase letter |
+| `[a-z]` | Matches one lowercase letter |
+| `[0-9]` | Matches one digit |
+| `[A-Za-z]` | Matches one uppercase or lowercase letter |
+| `[A-Za-z0-9]` | Matches one letter or digit |
+
+**Example 1 – Extracting lowercase letters:**
+
+```hcl
+sample_text = "Terraform2026"
+
+extracted_text = regex("[a-z]+", local.sample_text)
+```
+
+**Expected result:**
+
+```hcl
+"erraform"
+```
+
+The uppercase `T` is excluded because the pattern only matches lowercase letters.
+
+**Example 2 – Extracting letters and digits:**
+
+```hcl
+sample_text = "Terraform2026"
+
+extracted_text = regex("[A-Za-z0-9]+", local.sample_text)
+```
+
+**Expected result:**
+
+```hcl
+"Terraform2026"
+```
+
+### 14.3 Working with Quantifiers
+
+Quantifiers specify how many times a character or character class can occur.
+
+| Quantifier | Description |
+|---|---|
+| `+` | Matches one or more occurrences |
+| `*` | Matches zero or more occurrences |
+
+**Example 1 – Using `+`:**
+
+```hcl
+sample_text = "Terraform2026"
+
+extracted_text = regex("[A-Z]+", local.sample_text)
+```
+
+**Expected result:**
+
+```hcl
+"T"
+```
+
+Only one uppercase letter exists at the beginning of the string.
+
+**Example 2 – Using `*`:**
+
+```hcl
+sample_text = "TErraform2026"
+
+extracted_text = regex("[A-Z]*[a-z]+", local.sample_text)
+```
+
+**Expected result:**
+
+```hcl
+"TErraform"
+```
+
+Here:
+
+- `[A-Z]*` matches zero or more uppercase letters.
+- `[a-z]+` matches one or more lowercase letters.
+
+Together, they match the word `TErraform`.
+
+### 14.4 Using Anchors
+
+Anchors specify where a match should occur within a string.
+
+| Anchor | Description |
+|---|---|
+| `^` | Matches the beginning of a string |
+| `$` | Matches the end of a string |
+
+**Example 1 – Matching from the beginning:**
+
+```hcl
+sample_text = "Terraform2026"
+
+extracted_text = regex("^[A-Za-z]+", local.sample_text)
+```
+
+**Expected result:**
+
+```hcl
+"Terraform"
+```
+
+The `^` anchor ensures that the match starts at the beginning of the string.
+
+**Example 2 – Matching at the end:**
+
+```hcl
+sample_text = "Terr2002aform2026"
+
+extracted_text = regex("[0-9]+$", local.sample_text)
+```
+
+**Expected result:**
+
+```hcl
+"2026"
+```
+
+The `$` anchor ensures that the matched digits occur at the end of the string.
+
+**Example 3 – Using both anchors:**
+
+```hcl
+sample_text = "Terr2002aform2026"
+
+extracted_text = regex("^[A-Za-z]+$", local.sample_text)
+```
+
+This results in an error because the pattern requires the entire string to contain only letters. The input also contains digits.
+
+This demonstrates that `^` and `$` together enforce a match against the entire string, rather than just a portion of it.
+
+### 14.5 Using Alternation (OR)
+
+The pipe character `|` represents OR in regular expressions. It allows a pattern to match either one expression or another.
+
+**Example:**
+
+```hcl
+sample_text = "Terraform is fun in 2026 version 2"
+
+extracted_text = regex("[A-Za-z]+|[0-9]+", local.sample_text)
+```
+
+**Expected result:**
+
+```hcl
+"Terraform"
+```
+
+The pattern matches either a sequence of letters or a sequence of digits.
+
+Since `regex()` returns only the first match, it returns `Terraform`.
+
+### 14.6 Understanding regexall()
+
+The `regexall()` function searches for all non-overlapping matches of a regular expression pattern and returns them as a list.
+
+**Syntax:**
+
+```hcl
+regexall(pattern, string)
+```
+
+**Example 1 – Extracting all numbers:**
+
+```hcl
+sample_text = "Terr2002aform2026"
+
+extracted_text = regexall("[0-9]+", local.sample_text)
+```
+
+**Expected result:**
+
+```hcl
+[
+  "2002",
+  "2026"
+]
+```
+
+**Example 2 – Extracting all words:**
+
+```hcl
+sample_text = "Terraform is fun in 2026"
+
+extracted_text = regexall("[A-Za-z]+", local.sample_text)
+```
+
+**Expected result:**
+
+```hcl
+[
+  "Terraform",
+  "is",
+  "fun",
+  "in"
+]
+```
+
+Numbers are excluded because the pattern only matches letters.
+
+**Example 3 – Extracting both words and numbers:**
+
+```hcl
+sample_text = "Terraform is fun in 2026 version 2"
+
+extracted_text = regexall("[A-Za-z]+|[0-9]+", local.sample_text)
+```
+
+**Expected result:**
+
+```hcl
+[
+  "Terraform",
+  "is",
+  "fun",
+  "in",
+  "2026",
+  "version",
+  "2"
+]
+```
+
+The alternation operator allows the pattern to match either letters or digits. Using `regexall()` returns every match instead of just the first one.
+
+### 14.7 Comparing regex() and regexall()
+
+| Function | Behaviour | Return value |
+|---|---|---|
+| `regex()` | Returns the first match | A string when there are no capture groups |
+| `regexall()` | Returns all matches | A list of matching strings |
+
+An important difference is how they handle unmatched patterns:
+
+- `regex()` produces an error when no match is found.
+- `regexall()` returns an empty list when no match is found.
+
+### 14.8 Key Takeaways
+
+- Regular expressions are useful for matching and extracting text based on patterns.
+- Character classes define which characters are allowed in a match.
+- Quantifiers such as `+` and `*` control how many characters can be matched.
+- Anchors `^` and `$` specify the beginning and end of a string.
+- The `|` operator allows alternative patterns to be matched.
+- `regex()` returns the first match.
+- `regexall()` returns all matching occurrences as a list.
+
+**Note:** Capture groups and more advanced regular expression patterns will be explored separately.
+
+## 15. Outputs and Expected Results
 
 Terraform output values expose information calculated by the configuration.
 
@@ -987,11 +1282,11 @@ terraform output
 
 The `terraform output` command displays values from the latest applied state. For configurations that only calculate local values and outputs, `terraform plan` is useful for reviewing the expected changes without applying them.
 
-## 15. Formatting, Validation, and Planning
+## 16. Formatting, Validation, and Planning
 
 Before committing Terraform configuration changes, it is important to format and validate the files and review the execution plan.
 
-### 15.1 Format the Configuration
+### 16.1 Format the Configuration
 
 Run:
 
@@ -1007,7 +1302,7 @@ To check all Terraform files in the current directory and its subdirectories:
 terraform fmt -recursive
 ```
 
-### 15.2 Validate the Configuration
+### 16.2 Validate the Configuration
 
 Run:
 
@@ -1019,7 +1314,7 @@ This checks whether the Terraform configuration is syntactically valid and inter
 
 Validation does not verify that every planned operation will succeed against a real provider or infrastructure environment.
 
-### 15.3 Review the Plan
+### 16.3 Review the Plan
 
 Run:
 
@@ -1035,7 +1330,7 @@ No infrastructure deployment is required to practise the local values and expres
 
 ---
 
-## 16. Key Takeaways
+## 17. Key Takeaways
 
 This chapter covered several important Terraform functions and expression techniques.
 

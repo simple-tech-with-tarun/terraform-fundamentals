@@ -140,15 +140,18 @@ output "converted_map" {
 output "number" {
   value = local.number
 }
-output "small_number"{
+output "small_number" {
   value = local.small_number
 }
-output "large_number"{
+output "large_number" {
   value = local.large_number
 }
-output "port_string"{
+output "port_string" {
   value = local.port_string
 }
-output "number_string"{
+output "number_string" {
   value = local.number_string
+}
+output "extracted_text" {
+  value = local.extracted_text
 }

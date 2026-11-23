@@ -179,9 +179,13 @@ locals {
   application_list = tolist(local.application_set)
   converted_map    = tomap(local.environment_regions)
 
-  number       = [for value in local.number_list : tonumber(value)]
-  small_number = min(local.number...)
-  large_number = max(local.number...)
-  port_string  = [for value in local.port : tostring(value)]
-  number_string = [for value in local.port_string: tonumber(value)]
+  number        = [for value in local.number_list : tonumber(value)]
+  small_number  = min(local.number...)
+  large_number  = max(local.number...)
+  port_string   = [for value in local.port : tostring(value)]
+  number_string = [for value in local.port_string : tonumber(value)]
+
+  sample_text = "Terraform is fun in 2026 version 2"
+
+  extracted_text = regexall("[A-Za-z]+|[0-9]+", local.sample_text)
 }
