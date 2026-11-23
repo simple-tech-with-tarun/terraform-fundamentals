@@ -618,7 +618,271 @@ The elements are paired by their positions in the two lists.
 
 The lists should have matching lengths, and the keys should be unique to avoid unexpected map results.
 
-## 12. Function Composition
+## 12. Type Conversion Functions
+
+Terraform provides built-in functions to convert values between different types. These functions are useful when working with variables, local values, module inputs, and collections that require a specific data type.
+
+The following functions were explored in this section:
+
+| Function | Description |
+|---|---|
+| `tolist()` | Converts a compatible value into a list. |
+| `tomap()` | Converts an object or compatible value into a map. |
+| `tonumber()` | Converts a compatible value into a number. |
+| `tostring()` | Converts a value into a string. |
+
+### 12.1 Converting Values into Lists with `tolist()`
+
+The `tolist()` function converts a compatible collection into a list.
+
+Example:
+
+```hcl
+application_set = toset([
+  "frontend",
+  "backend",
+  "database"
+])
+
+application_list = tolist(local.application_set)
+```
+
+The resulting list contains the same unique elements as the set.
+
+A set does not guarantee element ordering. When Terraform converts a set of strings into a list, it uses lexical ordering.
+
+Expected result:
+
+```hcl
+[
+  "backend",
+  "database",
+  "frontend"
+]
+```
+
+Once converted into a list, elements can be accessed using numeric indexes.
+
+For example:
+
+```hcl
+first_application = local.application_list[0]
+```
+
+Result:
+
+```text
+backend
+```
+
+List indexing starts at zero.
+
+### 12.2 Converting Objects into Maps with `tomap()`
+
+The `tomap()` function converts an object or compatible map-like value into a map.
+
+Example:
+
+```hcl
+environment_region_object = {
+  dev   = "centralindia"
+  stage = "westindia"
+  prod  = "eastus"
+}
+
+converted_map = tomap(local.environment_region_object)
+```
+
+Expected result:
+
+```hcl
+{
+  dev   = "centralindia"
+  stage = "westindia"
+  prod  = "eastus"
+}
+```
+
+The original keys and values are preserved.
+
+The important distinction is between an object and a map:
+
+- An object has a fixed set of named attributes, which can have different types.
+- A map is a collection of key-value pairs where all values must have a common type.
+
+`tomap()` is useful when a value needs to be passed to a module or variable that expects a map.
+
+For example:
+
+```hcl
+variable "environment_regions" {
+  type = map(string)
+}
+```
+
+An object can be explicitly converted before being passed to this variable.
+
+If the value is already a map, using `tomap()` is generally unnecessary.
+
+### 12.3 Converting Strings into Numbers with `tonumber()`
+
+The `tonumber()` function converts a compatible value, such as a numeric string, into a number.
+
+Example:
+
+```hcl
+number_list = ["1", "3", "2", "1", "11", "15", "16", "11"]
+
+number = [
+  for value in local.number_list : tonumber(value)
+]
+```
+
+Expected result:
+
+```hcl
+[
+  1,
+  3,
+  2,
+  1,
+  11,
+  15,
+  16,
+  11
+]
+```
+
+The `for` expression iterates through every element in the original list and applies `tonumber()` to it.
+
+The original order and duplicate values are preserved.
+
+### 12.4 Finding Minimum and Maximum Values
+
+Terraform provides `min()` and `max()` functions to find the smallest and largest numeric values.
+
+Using the converted number list:
+
+```hcl
+number_list_converted = [
+  for value in local.number_list : tonumber(value)
+]
+
+small_number = min(local.number_list_converted...)
+
+large_number = max(local.number_list_converted...)
+```
+
+Expected results:
+
+```hcl
+small_number = 1
+large_number = 16
+```
+
+The `...` operator is called argument expansion.
+
+It expands the elements of a collection into individual function arguments.
+
+For example:
+
+```hcl
+min(local.number_list_converted...)
+```
+
+Is equivalent to:
+
+```hcl
+min(1, 3, 2, 1, 11, 15, 16, 11)
+```
+
+Without argument expansion, Terraform passes the entire list as one argument, which `min()` and `max()` cannot accept.
+
+### 12.5 Understanding the Limitation of `sort()`
+
+The `sort()` function sorts string elements in lexicographical order. It does not perform numerical sorting.
+
+For example:
+
+```hcl
+sort(["1", "3", "2", "11", "15", "16"])
+```
+
+Expected result:
+
+```hcl
+["1", "11", "15", "16", "2", "3"]
+```
+
+This happens because string sorting compares characters rather than numerical values.
+
+The `sort()` function expects a list of strings and returns a sorted list of strings.
+
+When working with numeric values, convert them to strings explicitly if you want to use `sort()`. However, the resulting order will still be lexicographical rather than numerical.
+
+Therefore, `sort()` should not be used when numerical ordering is required.
+
+The `min()` and `max()` functions can identify the smallest and largest values, but they do not sort an entire numeric list.
+
+### 12.6 Converting Numbers into Strings with `tostring()`
+
+The `tostring()` function converts a compatible value into a string.
+
+Example:
+
+```hcl
+port = [10, 20, 40, 8080, 80, 443]
+
+port_string = [
+  for value in local.port : tostring(value)
+]
+```
+
+Expected result:
+
+```hcl
+[
+  "10",
+  "20",
+  "40",
+  "8080",
+  "80",
+  "443"
+]
+```
+
+The `for` expression iterates through the numeric list and converts each element into a string.
+
+### 12.7 Combining Type Conversion Functions
+
+Type conversion functions can be combined with `for` expressions to convert entire collections.
+
+For example, the string list can be converted back into numbers:
+
+```hcl
+number_string = [
+  for value in local.port_string : tonumber(value)
+]
+```
+
+Expected result:
+
+```hcl
+[
+  10,
+  20,
+  40,
+  8080,
+  80,
+  443
+]
+```
+
+This demonstrates how Terraform can convert collection elements between types while preserving their original order.
+
+Type conversion is particularly useful when working with input variables, module arguments, provider configurations, and dynamically generated values.
+
+## 13. Function Composition
 
 Function composition means combining multiple functions and expressions to perform a more complex operation.
 
@@ -656,7 +920,7 @@ Function composition helps keep configurations concise while allowing complex da
 
 It is important to understand the order in which nested functions are evaluated because the output of one function becomes the input of the next.
 
-## 13. Outputs and Expected Results
+## 14. Outputs and Expected Results
 
 Terraform output values expose information calculated by the configuration.
 
@@ -687,6 +951,13 @@ The following table summarizes the concepts demonstrated.
 | `all_services` | `setunion()` | Combines unique elements from multiple sets. |
 | `intersection` | `setintersection()` | Returns elements common to all supplied sets. |
 | `subtract` | `setsubtract()` | Returns elements present in the first set but not the second. |
+| `application_list` | `tolist()` | Converts a set into a list. |
+| `converted_map` | `tomap()` | Converts an object into a map. |
+| `number` | `tonumber()`, `for` expression | Converts string elements into numbers. |
+| `port_string` | `tostring()`, `for` expression | Converts numeric elements into strings. |
+| `number_string` | `tonumber()`, `for` expression | Converts string elements back into numbers. |
+| `small_number` | `min()`, argument expansion | Finds the smallest number. |
+| `large_number` | `max()`, argument expansion | Finds the largest number. |
 
 To inspect the calculated values, define outputs in `outputs.tf`.
 
@@ -716,11 +987,11 @@ terraform output
 
 The `terraform output` command displays values from the latest applied state. For configurations that only calculate local values and outputs, `terraform plan` is useful for reviewing the expected changes without applying them.
 
-## 14. Formatting, Validation, and Planning
+## 15. Formatting, Validation, and Planning
 
 Before committing Terraform configuration changes, it is important to format and validate the files and review the execution plan.
 
-### 14.1 Format the Configuration
+### 15.1 Format the Configuration
 
 Run:
 
@@ -736,7 +1007,7 @@ To check all Terraform files in the current directory and its subdirectories:
 terraform fmt -recursive
 ```
 
-### 14.2 Validate the Configuration
+### 15.2 Validate the Configuration
 
 Run:
 
@@ -748,7 +1019,7 @@ This checks whether the Terraform configuration is syntactically valid and inter
 
 Validation does not verify that every planned operation will succeed against a real provider or infrastructure environment.
 
-### 14.3 Review the Plan
+### 15.3 Review the Plan
 
 Run:
 
@@ -764,7 +1035,7 @@ No infrastructure deployment is required to practise the local values and expres
 
 ---
 
-## 15. Key Takeaways
+## 16. Key Takeaways
 
 This chapter covered several important Terraform functions and expression techniques.
 
@@ -785,6 +1056,17 @@ This chapter covered several important Terraform functions and expression techni
 - Map `for` expressions can transform both keys and values.
 - `flatten()` converts nested lists into a single-level list.
 - `strcontains()` can be used to filter strings based on their contents.
+
+### Type conversion
+
+- `tolist()` converts compatible values into lists.
+- `tomap()` converts objects into maps.
+- `tonumber()` converts compatible values into numbers.
+- `tostring()` converts values into strings.
+- `for` expressions can apply type conversions to every element in a collection.
+- `min()` and `max()` identify the smallest and largest numeric values.
+- Argument expansion (`...`) passes collection elements as individual function arguments.
+- `sort()` performs lexicographical sorting of strings, not numerical sorting.
 
 ### Working with strings
 
