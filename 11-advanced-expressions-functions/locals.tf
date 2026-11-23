@@ -167,10 +167,21 @@ locals {
   backend_services = toset(["api", "database", "auth"])
   all_services     = setunion(local.frontend_services, local.backend_services)
 
-  set_a = toset(["frontend", "api"])
-  set_b = toset(["api", "database"])
-  set_c = toset(["database", "monitoring", "api"])
-
+  set_a        = toset(["frontend", "api"])
+  set_b        = toset(["api", "database"])
+  set_c        = toset(["database", "monitoring", "api"])
+  number_list  = ["1", "3", "2", "1", "11", "15", "16", "11"]
+  port         = [10, 20, 40, 8080, 80, 443]
   intersection = setintersection(local.set_a, local.set_b, local.set_c)
   subtract     = setsubtract(local.set_a, local.set_b)
+
+  application_set  = toset(local.applications)
+  application_list = tolist(local.application_set)
+  converted_map    = tomap(local.environment_regions)
+
+  number       = [for value in local.number_list : tonumber(value)]
+  small_number = min(local.number...)
+  large_number = max(local.number...)
+  port_string  = [for value in local.port : tostring(value)]
+  number_string = [for value in local.port_string: tonumber(value)]
 }

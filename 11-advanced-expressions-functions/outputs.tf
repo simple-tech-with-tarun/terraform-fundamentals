@@ -124,3 +124,31 @@ output "intersection" {
 output "subtract" {
   value = local.subtract
 }
+
+output "application_set" {
+  value = local.application_set
+}
+output "application_list" {
+  value = local.application_list
+}
+output "first_application" {
+  value = local.application_list[0]
+}
+output "converted_map" {
+  value = local.converted_map
+}
+output "number" {
+  value = local.number
+}
+output "small_number"{
+  value = local.small_number
+}
+output "large_number"{
+  value = local.large_number
+}
+output "port_string"{
+  value = local.port_string
+}
+output "number_string"{
+  value = local.number_string
+}
